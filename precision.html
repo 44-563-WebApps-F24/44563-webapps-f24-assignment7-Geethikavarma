@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preciscion</title>
+</head>
+<body>
+    <h1>Geethika's Speed Check</h1>
+    <div id="target">Your time</div>
+    <div id="counter">Count</div>
+    <button id="start" >Start Timer</button>
+    <button id="stop" >Stop Timer</button>
+
+    <script>
+        let stopTime;          // To store the time when stop button is pressed
+        let countdownTime = 4;  // The countdown starts from 4
+        let timerActive = false;  // To track if the timer is active
+        let targetTime = 4000;  // 4000 milliseconds (4 seconds) countdown target
+
+        // Function to record the stop time when the stop button is clicked
+        function recordTime() {
+            if (timerActive) {
+                stopTime = Date.now();  // Record the current time when stop is pressed
+                console.log("Stop Time:", stopTime);  // Debug log for reference
+            }
+        }
+
+        // Assign the recordTime function to the stop button's onclick
+        document.getElementById('stop').onclick = recordTime;
+
+        // Function to start the countdown timer
+        function startTime() {
+            stopTime = undefined;  // Reset stopTime each time the countdown starts
+            timerActive = true;     // Set the flag to indicate the timer is running
+            document.getElementById('target').textContent = "Your time";  // Reset the display
+            let startTimeValue = Date.now();  // Record when the countdown starts
+
+            // Use a loop to set a timeout for each second, counting from 4 down to 0
+            for (let i = 0; i <= 4; i++) {
+                setTimeout(() => {
+                    document.getElementById('counter').textContent = countdownTime - i;  // Display countdown
+                }, i * 1000);  // Delay increases with each iteration (i * 1000 ms)
+            }
+
+            // Set a final timeout after 4 seconds to evaluate how close the user was to stopping the timer
+            setTimeout(() => {
+                if (!stopTime) {
+                    // If the stop button was not pressed, the user is too slow
+                    document.getElementById('target').textContent = "Too Slow!";
+                } else {
+                    // Calculate how close the user was to stopping the timer when it hit zero
+                    const timeDifference = stopTime - (startTimeValue + targetTime);  // Difference from 4 seconds
+                    document.getElementById('target').textContent = `Time was ${Math.abs(timeDifference)} ms`;
+                }
+                timerActive = false;  // Mark the timer as inactive after evaluation
+            }, targetTime);  // Timeout set to 4000 ms (4 seconds)
+        }
+
+        // Assign the startTime function to the start button's onclick
+        document.getElementById('start').onclick = startTime;    </script>
+</body>
+</html>
