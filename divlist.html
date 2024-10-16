@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html> <head> 
+	
+	<title>DIVLIST</title>
+	
+	<style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #ff7e5f, #feb47b); /* Gradient background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .flex-container {
+            display: flex;  
+            flex-direction: row;
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .flex-container > div {  /* div children of the flex container */
+            background-color: #f1f1f1; 
+            margin: 10px;  
+            padding: 20px;  
+            font-size: 30px;
+            border-radius: 5px;
+            transition: transform 0.2s; /* Animation on hover */
+        }
+
+        .flex-container > div:hover {
+            transform: translateY(-5px); /* Hover effect for items */
+        }
+
+        button {
+            background-color: #28a745; /* Green background */
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);  
+            transform: scale(1.05); /* Slightly larger on hover */
+        }
+
+        /* Responsive layout */
+        @media (max-width: 600px) { 
+            .flex-container {
+                flex-direction: column;
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+        }
+</style></head>
+
+
+
+<body>
+
+	<h1>Geethika Builds List with Divs</h1>
+
+	<div class="flex-container" id="target">
+		<div class="divlist">row item 1</div>
+		<div class="divlist">row item 2</div>
+		<div class="divlist">row item 3</div>
+	  </div>
+	
+	<p> Press the button to create an new element of type div and then add it to the container.
+		</p>
+		<input type="text" id="inputText" placeholder="Enter text" />
+		<button onclick="addToEnd()">Add end</button>
+		<button onclick="addFront()">Add front</button>
+ 		<button onclick="remove()">Remove</button>
+		 <button onclick="swap()">Swap</button>
+	
+	
+</body>
+<script>
+    function addToEnd() {
+      let inputText = document.getElementById('inputText').value;
+      let element = document.createElement("div");
+      element.innerHTML = inputText;  
+      element.className = "divlist";  
+      let container = document.getElementById('target');
+      container.appendChild(element); 
+    }
+	function addFront() {
+      let inputText = document.getElementById('inputText').value;
+      let element = document.createElement("div");
+      element.innerHTML = inputText;
+      element.className = "divlist";
+      let container = document.getElementById('target');
+      container.insertBefore(element, container.firstChild);  
+	}
+	function remove() {
+      let divListItems = document.getElementsByClassName('divlist');
+      let length = divListItems.length;
+
+      if (length > 0) {
+        let middleIndex = Math.floor(length / 2);
+        divListItems[middleIndex].remove();
+      }
+    }
+	function swap() {
+            let divListItems = document.getElementsByClassName('divlist');
+            let length = divListItems.length;  if (length < 2) return;
+            let index1 = Math.floor(Math.random() * length);
+            let index2;
+            do {
+                index2 = Math.floor(Math.random() * length);
+            } while (index1 === index2); 
+            let element1 = divListItems[index1];
+            let element2 = divListItems[index2];
+            if (index1 > index2) { 
+                [index1, index2] = [index2, index1];
+            }
+            element1.remove();
+            element2.remove();
+            let container = document.getElementById('target');
+            container.insertBefore(element1, divListItems[index2]); 
+            container.insertBefore(element2, divListItems[index1 + 1] || null); 
+        }
+  </script>
+</html>	
